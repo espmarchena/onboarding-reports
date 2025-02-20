@@ -19,7 +19,7 @@ Este proyecto es una aplicación web desarrollada en **Next.js** con **React 19*
 1. Clonar el repositorio:
    ```sh
    git clone git@github.com:campus-CodeArts/onboarding-reports.git
-   cd tu-repo
+   cd onboarding-reports
    ```
 2. Instalar dependencias:
    ```sh
