@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Automatización",
+    "title": "Crear un archivo `docker-compose.yml` para gestionar múltiples servicios",
+    "description": "Escribir un archivo `docker-compose.yml` que incluya todos los servicios (Nginx, PHP, MySQL, etc.).\n\n**Instrucciones:**\n1. Crea un archivo `docker-compose.yml` en la carpeta `docker/exercise/compose/` con el siguiente contenido básico:\n   ```yaml\n   version: '3.8'\n   services:\n     web:\n       image: nginx:latest\n       ports:\n         - '8080:80'\n       volumes:\n         - ./html:/usr/share/nginx/html\n     php:\n       image: php:7.4-fpm\n       volumes:\n         - ./html:/var/www/html\n     db:\n       image: mysql:5.7\n       environment:\n         MYSQL_ROOT_PASSWORD: root\n         MYSQL_DATABASE: testdb\n       ports:\n         - '3306:3306'\n   ```\n2. Modifica el archivo según sea necesario para incluir cualquier configuración adicional específica de tu entorno.\n3. Inicia los servicios usando el comando:\n   ```bash\n   docker-compose up\n   ```\n4. Valida que todos los servicios están corriendo correctamente accediendo a:\n   - Nginx: `http://localhost:8080`\n   - MySQL: conecta usando un cliente MySQL con usuario `root` y contraseña `root` en el puerto `3306`.\n\n**Notas:**\n- Asegúrate de crear la carpeta `html/` con un archivo `index.php` o `index.html` adecuado.\n\n**Output esperado:**\nCrea un archivo `compose-output.txt` en `docker/exercise/compose/` que contenga la salida del comando `docker-compose ps`.",
+    "estimate": 4,
+    "tags": ["docker-compose", "automatización"],
+    "references": ["https://docs.docker.com/compose/"]
+  },
+  {
+    "category": "Automatización",
+    "title": "Configurar backups automáticos en un bucket S3 usando cron jobs",
+    "description": "Automatizar copias de seguridad diarias usando cron en contenedores. Subir las copias al bucket S3 configurado previamente.\n\n**Instrucciones:**\n1. Crea un archivo `Dockerfile` para configurar un contenedor con cron y AWS CLI:\n   ```dockerfile\n   FROM ubuntu:20.04\n   RUN apt-get update && apt-get install -y cron awscli\n   COPY backup.sh /usr/local/bin/backup.sh\n   RUN chmod +x /usr/local/bin/backup.sh\n   COPY cronjob /etc/cron.d/backup-cron\n   RUN chmod 0644 /etc/cron.d/backup-cron\n   RUN crontab /etc/cron.d/backup-cron\n   CMD [\"cron\", \"-f\"]\n   ```\n2. Crea un archivo `backup.sh` que genere un backup y lo suba al bucket S3:\n   ```bash\n   #!/bin/bash\n   mysqldump -u root -p'your_password' testdb > /tmp/backup.sql\n   aws s3 cp /tmp/backup.sql s3://your-bucket-name/backup-$(date +\"%Y%m%d\").sql\n   ```\n3. Define el cron job en un archivo `cronjob` con el siguiente contenido:\n   ```plaintext\n   0 0 * * * root /usr/local/bin/backup.sh\n   ```\n4. Construye y ejecuta el contenedor:\n   ```bash\n   docker build -t backup-cron .\n   docker run -d --name backup-cron backup-cron\n   ```\n5. Verifica que los backups se están subiendo al bucket S3.\n\n**Notas:**\n- Reemplaza `your_password` y `your-bucket-name` con tus credenciales reales.\n- Usa el comando `docker logs backup-cron` para verificar errores.\n\n**Output esperado:**\nCrea un archivo `cron-backup-output.txt` en `docker/exercise/cron/` con una lista de los archivos subidos al bucket S3, obtenida con `aws s3 ls s3://your-bucket-name/`.",
+    "estimate": 6,
+    "tags": ["aws", "s3", "backup", "cron"],
+    "references": ["https://dev.to/techiespace/how-to-run-a-cron-job-inside-a-docker-container-114k"]
+  },
+  {
+    "category": "Automatización",
+    "title": "Documentar el proceso de automatización y despliegue",
+    "description": "Crear una guía detallada para replicar la automatización en otros entornos.\n\n**Instrucciones:**\n1. Crea un archivo `automation-guide.md` en la carpeta `docker/exercise/documentation/`.\n2. Documenta los siguientes aspectos:\n   - Cómo configurar `docker-compose` y qué servicios están incluidos.\n   - Cómo configurar el contenedor de cron para realizar backups automáticos.\n   - Problemas encontrados y cómo se resolvieron.\n3. Usa una estructura organizada, con encabezados y listas claras.\n\n**Notas:**\n- Incluye capturas de pantalla o salidas de comandos cuando sea relevante.\n- Sigue la [guía de Markdown](https://www.markdownguide.org/basic-syntax/) para una presentación limpia.\n\n**Output esperado:**\nCrea el archivo `automation-guide.md` en `docker/exercise/documentation/` y súbelo a tu rama.",
+    "estimate": 3,
+    "tags": ["documentación", "automatización"],
+    "references": ["https://www.markdownguide.org/basic-syntax/"]
+  }
+]

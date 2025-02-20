@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Administración y redes",
+    "title": "Simular una red virtual en LocalStack usando VPC",
+    "description": "Configurar una VPC simulada en LocalStack con una tabla de enrutamiento y un gateway de Internet.\n\n**Instrucciones:**\n1. Inicia LocalStack en tu máquina local utilizando Docker Compose.\n2. Crea una VPC con el rango CIDR `10.0.0.0/16`.\n3. Crea una tabla de enrutamiento asociada a la VPC.\n4. Configura un gateway de Internet y asócialo a la tabla de enrutamiento para permitir tráfico externo.\n\n**Notas:**\n- Usa el AWS CLI configurado para apuntar a LocalStack (`--endpoint-url=http://localhost:4566`).\n- Valida las configuraciones utilizando el comando `aws ec2 describe-vpcs`.\n\n**Output esperado:**\nCrea un archivo `vpc-config.txt` en `3_administracion_redes/exercise/01-vpc-red-basica/` que incluya:\n- ID de la VPC.\n- Rango CIDR asignado.\n- IDs de la tabla de enrutamiento y el gateway de Internet.",
+    "estimate": 6,
+    "tags": ["localstack", "vpc", "redes"],
+    "references": ["https://github.com/localstack/localstack"]
+  },
+  {
+    "category": "Administración y redes",
+    "title": "Crear subredes públicas y privadas en la VPC simulada",
+    "description": "Configurar subredes en la VPC simulada en LocalStack y asociarlas a tablas de enrutamiento.\n\n**Instrucciones:**\n1. Crea dos subredes:\n   - Una subred pública con rango CIDR `10.0.1.0/24`.\n   - Una subred privada con rango CIDR `10.0.2.0/24`.\n2. Asocia la subred pública a la tabla de enrutamiento con el gateway de Internet.\n3. Valida las configuraciones utilizando el comando `aws ec2 describe-subnets`.\n\n**Notas:**\n- Usa el AWS CLI configurado para apuntar a LocalStack (`--endpoint-url=http://localhost:4566`).\n- Asegúrate de documentar los IDs generados para las subredes y las asociaciones.\n\n**Output esperado:**\nCrea un archivo `subnets-config.txt` en `3_administracion_redes/exercise/02-subredes/` que contenga:\n- IDs de las subredes creadas.\n- Asociaciones con la tabla de enrutamiento.",
+    "estimate": 5,
+    "tags": ["localstack", "vpc", "subredes"],
+    "references": ["https://github.com/localstack/localstack"]
+  },
+  {
+    "category": "Administración y redes",
+    "title": "Configurar un bucket S3 en LocalStack para almacenamiento de datos",
+    "description": "Crear un bucket S3 en LocalStack y establecer políticas de acceso para almacenar datos simulados.\n\n**Instrucciones:**\n1. Inicia LocalStack en tu máquina local utilizando Docker Compose.\n2. Crea un bucket S3 llamado `my-backup-bucket`.\n3. Sube un archivo de prueba al bucket utilizando el comando:\n   ```bash\n   aws s3 cp backup.sql s3://my-backup-bucket/ --endpoint-url=http://localhost:4566\n   ```\n4. Lista los archivos en el bucket para verificar que el archivo se haya subido correctamente.\n\n**Notas:**\n- Usa el AWS CLI configurado para apuntar a LocalStack (`--endpoint-url=http://localhost:4566`).\n- Asegúrate de generar un archivo de prueba llamado `backup.sql` para subir al bucket.\n\n**Output esperado:**\nCrea un archivo `s3-config.txt` en `3_administracion_redes/exercise/03-s3-backup/` que contenga:\n- El nombre del bucket.\n- Un listado de los archivos en el bucket.\n- La política de acceso aplicada (si corresponde).",
+    "estimate": 4,
+    "tags": ["localstack", "s3", "backup"],
+    "references": ["https://github.com/localstack/localstack"]
+  }
+]

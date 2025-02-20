@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Observabilidad y monitorización",
+    "title": "Usar `docker stats` para monitorizar el rendimiento de contenedores",
+    "description": "Ejecutar `docker stats` para observar el uso de recursos (CPU, memoria, etc.) de los contenedores en tiempo real.\n\n**Instrucciones:**\n1. Inicia al menos dos contenedores Docker, por ejemplo:\n   ```bash\n   docker run -d --name nginx nginx\n   docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root mysql:5.7\n   ```\n2. Ejecuta `docker stats` en la terminal para observar el rendimiento de los contenedores.\n3. Monitorea durante unos minutos y toma nota del uso de CPU, memoria y E/S de disco.\n\n**Notas:**\n- Puedes usar `CTRL+C` para salir del comando `docker stats`.\n- Si necesitas una salida en tiempo específico, usa el comando:\n  ```bash\n  docker stats --no-stream\n  ```\n\n**Output esperado:**\nCrea un archivo `docker-stats.txt` en `docker/exercise/monitoring/` que contenga una salida capturada del comando `docker stats --no-stream`.",
+    "estimate": 2,
+    "tags": ["docker", "monitorización"],
+    "references": ["https://docs.docker.com/engine/reference/commandline/stats/"]
+  },
+  {
+    "category": "Observabilidad y monitorización",
+    "title": "Configurar Prometheus para recolectar métricas básicas de los servicios",
+    "description": "Desplegar un contenedor Prometheus configurado para recopilar métricas de los servicios Docker.\n\n**Instrucciones:**\n1. Crea un archivo `prometheus.yml` en la carpeta `docker/exercise/prometheus/` con el siguiente contenido:\n   ```yaml\n   global:\n     scrape_interval: 15s\n   scrape_configs:\n     - job_name: 'docker'\n       static_configs:\n         - targets: ['localhost:8080']\n   ```\n2. Ejecuta un contenedor Prometheus usando el archivo de configuración:\n   ```bash\n   docker run -d -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus\n   ```\n3. Accede a la interfaz web de Prometheus en `http://localhost:9090` y verifica que las métricas están siendo recopiladas.\n4. Explora las métricas disponibles en el panel de Prometheus.\n\n**Notas:**\n- Asegúrate de que el archivo `prometheus.yml` está en el directorio desde donde ejecutas el comando Docker.\n- Usa el endpoint `/metrics` de Prometheus para verificar las métricas disponibles.\n\n**Output esperado:**\nCrea un archivo `prometheus-output.txt` en `docker/exercise/prometheus/` que contenga la salida del endpoint `http://localhost:9090/metrics`.",
+    "estimate": 6,
+    "tags": ["prometheus", "monitorización", "docker"],
+    "references": ["https://prometheus.io/docs/introduction/overview/"]
+  },
+  {
+    "category": "Observabilidad y monitorización",
+    "title": "Crear un dashboard en Grafana para visualizar métricas de Prometheus",
+    "description": "Usar Grafana para crear gráficos que muestren las métricas recolectadas por Prometheus.\n\n**Instrucciones:**\n1. Despliega un contenedor Grafana con el siguiente comando:\n   ```bash\n   docker run -d -p 3000:3000 grafana/grafana\n   ```\n2. Accede a Grafana en `http://localhost:3000` y usa las credenciales por defecto (usuario: `admin`, contraseña: `admin`).\n3. Configura Prometheus como fuente de datos:\n   - En el panel de configuración de Grafana, selecciona **Data Sources**.\n   - Añade una nueva fuente de datos con el tipo `Prometheus` y la URL `http://host.docker.internal:9090`.\n4. Crea un nuevo dashboard y añade gráficos para visualizar métricas básicas como:\n   - Uso de CPU (`process_cpu_seconds_total`).\n   - Memoria disponible (`node_memory_MemAvailable_bytes`).\n\n**Notas:**\n- Asegúrate de que los contenedores Prometheus y Grafana están corriendo simultáneamente.\n- Usa las métricas disponibles en el panel de Prometheus para configurar los gráficos.\n\n**Output esperado:**\nCrea un archivo `grafana-dashboard.json` en `docker/exercise/grafana/` exportando la configuración del dashboard creado.",
+    "estimate": 5,
+    "tags": ["grafana", "prometheus", "monitorización"],
+    "references": ["https://grafana.com/docs/"]
+  }
+]

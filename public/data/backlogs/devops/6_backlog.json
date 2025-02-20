@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Estabilización y mejora",
+    "title": "Revisar y optimizar configuraciones de contenedores",
+    "description": "Auditar las configuraciones actuales y realizar ajustes para mejorar la eficiencia.\n\n**Instrucciones:**\n1. Revisa las configuraciones actuales de todos los contenedores en ejecución con:\n   ```bash\n   docker ps --format \"table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{.Ports}}\"\n   ```\n2. Verifica las imágenes usadas con `docker images` e identifica imágenes que puedan optimizarse.\n3. Reemplaza imágenes más pesadas con alternativas ligeras (por ejemplo, usa `alpine` cuando sea posible).\n4. Agrega límites de recursos a los contenedores:\n   ```bash\n   docker run -d --memory=256m --cpus=0.5 nginx\n   ```\n5. Valida que los ajustes no afecten el rendimiento ni la funcionalidad de los servicios.\n\n**Notas:**\n- Usa `docker stats` para monitorear el impacto de los límites de recursos.\n- Si es posible, configura volúmenes compartidos solo cuando sean estrictamente necesarios.\n\n**Output esperado:**\nCrea un archivo `container-optimization.txt` en `docker/exercise/optimization/` que detalle los ajustes realizados, incluyendo:\n- Imágenes optimizadas.\n- Límites de recursos aplicados.\n- Resultados de `docker stats` tras los cambios.",
+    "estimate": 4,
+    "tags": ["docker", "optimización"],
+    "references": ["https://docs.docker.com/develop/dev-best-practices/"]
+  },
+  {
+    "category": "Estabilización y mejora",
+    "title": "Mejorar la seguridad de la red Docker",
+    "description": "Revisar configuraciones de red y aplicar mejores prácticas de seguridad.\n\n**Instrucciones:**\n1. Lista todas las redes Docker disponibles con:\n   ```bash\n   docker network ls\n   ```\n2. Inspecciona las configuraciones de cada red:\n   ```bash\n   docker network inspect <network_name>\n   ```\n3. Aplica las siguientes mejoras:\n   - Configura redes personalizadas para servicios sensibles.\n   - Asegúrate de que los contenedores que no necesitan comunicarse estén en redes separadas.\n4. Configura reglas de firewall en la red del host para limitar el acceso no autorizado.\n5. Usa `docker-compose.yml` para definir redes específicas:\n   ```yaml\n   networks:\n     backend:\n       driver: bridge\n     frontend:\n       driver: bridge\n   ```\n6. Verifica la seguridad de las configuraciones probando el acceso entre contenedores en diferentes redes.\n\n**Notas:**\n- Usa herramientas como `nmap` para comprobar puertos abiertos y accesibilidad desde redes externas.\n\n**Output esperado:**\nCrea un archivo `network-security.txt` en `docker/exercise/security/` que contenga:\n- Una lista de redes creadas.\n- Resultados de pruebas de acceso entre contenedores y desde redes externas.",
+    "estimate": 5,
+    "tags": ["docker", "seguridad", "redes"],
+    "references": ["https://docs.docker.com/engine/security/security/"]
+  },
+  {
+    "category": "Estabilización y mejora",
+    "title": "Crear una guía paso a paso del entorno final",
+    "description": "Documentar el entorno final con todos los componentes desplegados, incluyendo diagramas y configuraciones.\n\n**Instrucciones:**\n1. Crea un archivo `final-environment.md` en la carpeta `docker/exercise/documentation/`.\n2. Documenta los siguientes aspectos:\n   - Servicios desplegados y sus configuraciones.\n   - Redes y reglas de seguridad aplicadas.\n   - Optimizaciones realizadas (imágenes ligeras, límites de recursos, etc.).\n3. Usa [diagrams.net](https://app.diagrams.net/) para crear un diagrama del entorno final que incluya:\n   - Contenedores y su conectividad (redes).\n   - Relación entre servicios como Nginx, PHP y MySQL.\n4. Adjunta el diagrama al archivo Markdown.\n\n**Notas:**\n- Estructura la guía en secciones claras (configuración, optimización, seguridad).\n- Usa capturas de pantalla cuando sea relevante.\n\n**Output esperado:**\nCrea el archivo `final-environment.md` en `docker/exercise/documentation/` y sube el diagrama creado en formato PNG o SVG a la misma carpeta.",
+    "estimate": 3,
+    "tags": ["documentación", "infraestructura"],
+    "references": ["https://app.diagrams.net/"]
+  }
+]

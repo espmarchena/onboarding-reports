@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Administración de sistemas",
+    "title": "Crear y usar volúmenes Docker para persistencia de datos",
+    "description": "Configurar volúmenes Docker para guardar datos persistentes entre reinicios de contenedores.\n\n**Instrucciones:**\n1. Crea un contenedor que use un volumen para almacenar datos persistentes. Por ejemplo, inicia un contenedor Nginx con:\n   ```bash\n   docker run -d --name nginx-vol -v nginx-data:/usr/share/nginx/html nginx\n   ```\n2. Copia un archivo al volumen dentro del contenedor:\n   ```bash\n   docker exec -it nginx-vol bash -c 'echo \"¡Hola desde un volumen Docker!\" > /usr/share/nginx/html/index.html'\n   ```\n3. Detén y elimina el contenedor:\n   ```bash\n   docker stop nginx-vol && docker rm nginx-vol\n   ```\n4. Inicia un nuevo contenedor usando el mismo volumen:\n   ```bash\n   docker run -d --name nginx-vol2 -v nginx-data:/usr/share/nginx/html nginx\n   ```\n5. Valida que los datos persisten accediendo a `http://localhost:8080` o inspeccionando el volumen.\n\n**Notas:**\n- Usa `docker volume inspect nginx-data` para verificar la ubicación del volumen.\n\n**Output esperado:**\nCrea un archivo llamado `volume-test.txt` en `docker/exercise/volumes/` que contenga el resultado del comando `docker volume inspect nginx-data`.",
+    "estimate": 4,
+    "tags": ["docker", "persistencia"],
+    "references": ["https://docs.docker.com/storage/volumes/"]
+  },
+  {
+    "category": "Administración de sistemas",
+    "title": "Desplegar un contenedor MySQL y crear una base de datos inicial",
+    "description": "Configurar un contenedor MySQL con credenciales seguras y crear una base de datos inicial.\n\n**Instrucciones:**\n1. Inicia un contenedor MySQL configurando las credenciales:\n   ```bash\n   docker run -d --name mysql-db -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=testdb -p 3306:3306 mysql:5.7\n   ```\n2. Conéctate al contenedor MySQL desde tu máquina o usando un cliente MySQL, y crea una tabla inicial:\n   ```sql\n   CREATE TABLE test_table (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255));\n   ```\n3. Inserta algunos datos en la tabla:\n   ```sql\n   INSERT INTO test_table (name) VALUES ('Ejemplo1'), ('Ejemplo2');\n   ```\n4. Verifica los datos usando un comando SQL:\n   ```sql\n   SELECT * FROM test_table;\n   ```\n\n**Notas:**\n- Usa `docker exec -it mysql-db mysql -u root -p` para acceder a la consola de MySQL desde el contenedor.\n\n**Output esperado:**\nCrea un archivo llamado `mysql-init.sql` en `docker/exercise/mysql/` que contenga los comandos SQL utilizados para crear la base de datos y la tabla inicial.",
+    "estimate": 5,
+    "tags": ["docker", "mysql", "bases de datos"],
+    "references": ["https://hub.docker.com/_/mysql"]
+  },
+  {
+    "category": "Administración de sistemas",
+    "title": "Configurar backups locales y restauraciones de la base de datos",
+    "description": "Usar `mysqldump` para crear copias de seguridad de una base de datos y restaurarlas en caso de necesidad.\n\n**Instrucciones:**\n1. Crea un backup de la base de datos `testdb` del contenedor MySQL con:\n   ```bash\n   docker exec mysql-db mysqldump -u root -p testdb > docker/exercise/mysql/backup.sql\n   ```\n2. Detén y elimina el contenedor actual:\n   ```bash\n   docker stop mysql-db && docker rm mysql-db\n   ```\n3. Inicia un nuevo contenedor MySQL vacío con las mismas credenciales:\n   ```bash\n   docker run -d --name mysql-db2 -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql:5.7\n   ```\n4. Restaura la base de datos desde el archivo de backup:\n   ```bash\n   docker exec -i mysql-db2 mysql -u root -p < docker/exercise/mysql/backup.sql\n   ```\n5. Verifica que los datos se han restaurado correctamente:\n   ```sql\n   USE testdb;\n   SELECT * FROM test_table;\n   ```\n\n**Notas:**\n- Usa `docker logs mysql-db2` para verificar errores durante la restauración.\n\n**Output esperado:**\nCrea un archivo `restore-test.txt` en `docker/exercise/mysql/` con el resultado del comando SQL `SELECT * FROM test_table` tras la restauración.",
+    "estimate": 3,
+    "tags": ["mysql", "backup", "restauración"],
+    "references": ["https://dev.mysql.com/doc/refman/8.0/en/backup-and-recovery.html"]
+  }
+]

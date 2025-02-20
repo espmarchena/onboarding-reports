@@ -1,0 +1,42 @@
+[
+  {
+    "category": "Configuración inicial",
+    "title": "Instalar Docker en los equipos locales",
+    "description": "Descargar e instalar Docker Desktop en los equipos. Una vez instalado, abre una terminal y ejecuta el comando `docker run hello-world` para comprobar que Docker está operativo. Si el comando muestra un mensaje de éxito, la instalación se completó correctamente.",
+    "estimate": 2,
+    "tags": ["infraestructura", "docker"],
+    "references": ["https://docs.docker.com/get-docker/"]
+  },
+  {
+    "category": "Configuración inicial",
+    "title": "Desplegar un contenedor Nginx básico",
+    "description": "Usar Docker para desplegar un servidor web básico con Nginx.\n\n**Instrucciones:**\n1. Ejecuta el comando: `docker run -d -p 8080:80 nginx`. Esto iniciará un contenedor con Nginx en segundo plano y mapeará el puerto 8080 de tu máquina al puerto 80 del contenedor.\n2. Accede a `http://localhost:8080` en el navegador para validar que el servidor está operativo.\n\n**Notas:**\n- Usa `docker ps` para verificar que el contenedor está en ejecución.\n- Si no puedes acceder a `localhost:8080`, asegúrate de que ningún otro servicio está utilizando el puerto 8080.\n\n**Output esperado:**\nCrea un archivo `nginx.html` con el contenido que aparece en la página web de `localhost:8080`. Para ello, ejecuta:\n```bash\nwget http://localhost:8080 -O docker/exercise/01-primer-contenedor/nginx.html\n```\nSube este archivo a la carpeta correspondiente del repositorio.",
+    "estimate": 3,
+    "tags": ["docker", "nginx"],
+    "references": ["https://hub.docker.com/_/nginx"]
+  },
+  {
+    "category": "Configuración inicial",
+    "title": "Crear una red Docker para conectar múltiples contenedores",
+    "description": "Configura una red Docker personalizada para conectar varios contenedores entre sí.\n\n**Instrucciones:**\n1. Crea una red personalizada con el comando: `docker network create my-network`.\n2. Inicia dos contenedores, como Nginx y MySQL, asociándolos a la red con los comandos:\n   ```bash\n   docker run -d --network my-network --name web nginx\n   docker run -d --network my-network --name db mysql:5.7\n   ```\n3. Accede al contenedor `web` y verifica la conectividad con `db` usando el comando:\n   ```bash\n   docker exec -it web ping db\n   ```\n\n**Notas:**\n- Usa `docker network inspect my-network` para comprobar la configuración de la red.\n\n**Output esperado:**\nGenera un archivo llamado `network-test.txt` en la carpeta `docker/exercise/03-redes` que contenga el resultado del comando `ping db` desde el contenedor `web`.",
+    "estimate": 4,
+    "tags": ["docker", "redes"],
+    "references": ["https://docs.docker.com/network/"]
+  },
+  {
+    "category": "Configuración inicial",
+    "title": "Configurar un contenedor para servir una aplicación PHP+Nginx",
+    "description": "Crea un contenedor que combine Nginx y PHP para servir una aplicación PHP básica.\n\n**Instrucciones:**\n1. Crea un archivo `Dockerfile` con el siguiente contenido:\n   ```dockerfile\n   FROM php:7.4-fpm\n   RUN docker-php-ext-install mysqli\n   FROM nginx:latest\n   COPY ./index.php /usr/share/nginx/html/index.php\n   CMD [\"nginx\", \"-g\", \"daemon off;\"]\n   ```\n2. Crea un archivo `index.php` con el siguiente contenido:\n   ```php\n   <?php echo \"¡Hola desde PHP con Nginx!\"; ?>\n   ```\n3. Construye la imagen y ejecuta el contenedor con:\n   ```bash\n   docker build -t php-nginx .\n   docker run -d -p 8080:80 php-nginx\n   ```\n4. Valida el despliegue accediendo a `http://localhost:8080`.\n\n**Notas:**\n- Asegúrate de que el contenedor utiliza correctamente PHP-FPM para procesar archivos PHP.\n\n**Output esperado:**\nCrea un archivo llamado `php-nginx-output.txt` en la carpeta `docker/exercise/04-php-nginx` con el contenido del comando `wget http://localhost:8080 -O -`.",
+    "estimate": 5,
+    "tags": ["docker", "php", "nginx"],
+    "references": ["https://docs.nginx.com/nginx/admin-guide/web-server/php-fastcgi/"]
+  },
+  {
+    "category": "Configuración inicial",
+    "title": "Escribir documentación en Markdown sobre la configuración inicial",
+    "description": "Crea un archivo `setup.md` para documentar los pasos realizados en las tareas anteriores.\n\n**Instrucciones:**\n1. Documenta cada tarea, incluyendo:\n   - Comandos ejecutados.\n   - Salidas importantes (puedes incluir capturas de pantalla o resultados en texto).\n   - Problemas encontrados y cómo se resolvieron.\n2. Usa encabezados claros y organiza el contenido en secciones.\n\n**Output esperado:**\nUn archivo `setup.md` en la carpeta `docker/exercise/documentation/` que describa la configuración inicial de Docker y los ejercicios realizados.",
+    "estimate": 3,
+    "tags": ["documentación", "markdown"],
+    "references": ["https://www.markdownguide.org/"]
+  }
+]
