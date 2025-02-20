@@ -29,7 +29,7 @@ Este proyecto es una aplicación web desarrollada en **Next.js** con **React 19*
    ```sh
    npm run dev
    ```
-4. Descarga los datos de prueba del fichero disponible: TODO
+4. Descarga los datos de prueba del fichero disponible: [0.0.3 public data](https://github.com/campus-CodeArts/onboarding-reports/releases/download/0.0.3/public_data.7z)
 5. Descomprímelos y ponlos en `public/data`.
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
