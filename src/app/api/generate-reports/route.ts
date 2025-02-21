@@ -43,7 +43,7 @@ export async function POST(req) {
       
             // Esperar a que la página haya cargado completamente
             await page.waitForSelector(".user-summary", { timeout: 30000 });
-            await page.waitForSelector(".user-activity", { timeout: 30000 });¡
+            await page.waitForSelector(".user-activity", { timeout: 30000 });
             await page.waitForFunction(() => {
                 const fonts = document.fonts;
                 return fonts.status === "loaded";
