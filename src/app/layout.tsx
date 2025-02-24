@@ -31,6 +31,7 @@ export default function RootLayout({
         <header className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
           <Link href="/" className="text-xl font-bold text-blue-600">CodeArts Solutions</Link>
           <Link href="/" className="text-xl font-bold text-blue-600">Home</Link>
+          <Link href="/ranking/teams" className="text-xl font-bold text-blue-600">Teams</Link>
           <Link href="/ranking" className="text-xl font-bold text-blue-600">Ranking</Link>
         </header>
 

@@ -41,8 +41,11 @@ export async function GET() {
           fullName: user["Nombre completo"],
           group: user["Grupo"],
           tutor: user["Correo del tutor/a"],
+          tutorCodeArts: "TODO",
           city: user["Ciudad"],
           grade: user["Grado"],
+          startDate: user["Fecha de inicio"],
+          endDate: user["Fecha de Fin"],
           totalScore,
         };
       })
